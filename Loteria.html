@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantar Loteria Mexicana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #990000;
+            --primary-dark: #660000;
+            --accent: #FFC107;
+            --accent-hover: #ffb300;
+            --bg-gradient: radial-gradient(circle at center, #3a0303 0%, #1a0101 100%);
+            --card-bg: #fffdf9;
+            --text-main: #2b2b2b;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin: 0 0 5px 0;
+            color: var(--accent);
+            text-shadow: 2px 3px 6px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+        }
+
+        .contador {
+            font-size: 1.1rem;
+            color: #ffccd5;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            padding: 4px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Contenedor Principal de la Carta */
+        .carta-wrapper {
+            perspective: 1000px;
+            margin: 15px 0;
+        }
+
+        .carta-container {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            width: 260px;
+            height: 380px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 0 6px var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .carta-container.animar {
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .numero-carta {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: left;
+            background: #ffe6e6;
+            width: fit-content;
+            padding: 2px 10px;
+            border-radius: 8px;
+        }
+
+        .nombre-carta {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin: auto 0;
+            line-height: 1.2;
+        }
+
+        .sub-carta {
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+
+        /* Controles y Botones */
+        .panel-control {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: #2b2b2b;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: #444;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .velocidad-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #ddd;
+            margin-top: 10px;
+        }
+
+        .velocidad-container select {
+            background: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            outline: none;
+        }
+
+        /* Historial Estilizado */
+        .historial-container {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .historial-titulo {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .historial {
+            font-size: 0.85rem;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            max-height: 70px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .badge-carta {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Scrollbar personalizado para el historial */
+        .historial::-webkit-scrollbar {
+            width: 6px;
+        }
+        .historial::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1> Loteria Mexicana </h1>
+        <div class="contador" id="contador">Carta 0 de 54</div>
+    </header>
+
+    <!-- Carta actual en pantalla -->
+    <div class="carta-wrapper">
+        <div class="carta-container" id="cartaBox">
+            <div class="numero-carta" id="numCarta"># --</div>
+            <div class="nombre-carta" id="nombreCarta">¡Listos!</div>
+            <div class="sub-carta">Loteria Tradicional</div>
+        </div>
+    </div>
+
+    <!-- Controles y Panel -->
+    <div class="panel-control">
+        <div class="controls">
+            <button id="btnIniciar" onclick="iniciarJuego()">Barajar y Jugar</button>
+            <button id="btnSiguiente" onclick="siguienteCarta()" disabled>Siguiente</button>
+            <button id="btnPausa" onclick="pausarJuego()" disabled>Pausar</button>
+        </div>
+        
+        <div class="velocidad-container">
+            <label for="velocidadSelect">Velocidad:</label>
+            <select id="velocidadSelect" onchange="cambiarVelocidad()">
+                <button value="5500">Lenta (5.5s)</button>
+                <option value="4000" selected>Normal (4s)</option>
+                <option value="2500">Rapida (2.5s)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="historial-container">
+        <div class="historial-titulo">Cartas anteriores:</div>
+        <div class="historial" id="historial">
+            <span style="color: #aaa; font-style: italic;">Ninguna carta pasada</span>
+        </div>
+    </div>
+
+    <script>
+        const barajaOriginal = [
+            "El Gallo", "El Diablito", "La Dama", "El Catrín", "El Paraguas", 
+            "La Sirena", "La Escalera", "La Botella", "El Barril", "El Árbol", 
+            "El Melón", "El Valiente", "El Gorrito", "La Muerte", "La Pera", 
+            "La Bandera", "El Bandolón", "El Violoncello", "La Garza", "El Pájaro", 
+            "La Mano", "La Bota", "La Luna", "El Cotorro", "El Borracho", 
+            "El Negrito", "El Corazón", "La Sandía", "El Tambor", "El Camarón", 
+            "Las Jaras", "El Músico", "La Araña", "El Soldado", "La Estrella", 
+            "El Cazo", "El Mundo", "El Apache", "El Nopal", "El Alacrán", 
+            "La Rosa", "La Calavera", "La Campana", "El Cantarito", "El Venado", 
+            "El Sol", "La Corona", "La Chalupa", "El Pino", "El Pescado", 
+            "La Palma", "La Maceta", "El Arpa", "La Rana"
+        ];
+
+        let barajaActual = [];
+        let indiceActual = -1;
+        let intervalo = null;
+        let vozSeleccionada = null;
+        let enPausa = false;
+
+        function cargarVoces() {
+            const voces = window.speechSynthesis.getVoices();
+            vozSeleccionada = voces.find(v => v.lang.includes('es-MX')) || voces.find(v => v.lang.includes('es'));
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = cargarVoces;
+        }
+
+        function cantar(texto) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(texto);
+                utterance.lang = 'es-MX';
+                utterance.rate = 0.95;
+                utterance.pitch = 1.0;
+                if (vozSeleccionada) {
+                    utterance.voice = vozSeleccionada;
+                }
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function barajar(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function iniciarJuego() {
+            barajaActual = barajar([...barajaOriginal]);
+            indiceActual = -1;
+
+            document.getElementById("btnSiguiente").disabled = false;
+            document.getElementById("btnPausa").disabled = false;
+            document.getElementById("btnIniciar").innerText = "Reiniciar";
+
+            siguienteCarta();
+            iniciarAutomatico();
+        }
+
+        function siguienteCarta() {
+            indiceActual++;
+            if (indiceActual < barajaActual.length) {
+                let carta = barajaActual[indiceActual];
+                let numero = barajaOriginal.indexOf(carta) + 1;
+
+                // Animacion visual de la carta
+                let cartaBox = document.getElementById("cartaBox");
+                cartaBox.classList.remove("animar");
+                void cartaBox.offsetWidth; 
+                cartaBox.classList.add("animar");
+
+                // Actualizar textos
+                document.getElementById("numCarta").innerText = `# ${numero}`;
+                document.getElementById("nombreCarta").innerText = carta;
+                document.getElementById("contador").innerText = `Carta ${indiceActual + 1} de 54`;
+
+                // Actualizar historial con etiquetas
+                let historialDiv = document.getElementById("historial");
+                if (indiceActual === 0) {
+                    historialDiv.innerHTML = "";
+                } else {
+                    let cartasPasadas = barajaActual.slice(0, indiceActual);
+                    historialDiv.innerHTML = cartasPasadas.map(c => `<span class="badge-carta">${c}</span>`).join("");
+                    historialDiv.scrollTop = historialDiv.scrollHeight;
+                }
+
+                cantar(carta);
+            } else {
+                pausarJuego();
+                document.getElementById("nombreCarta").innerText = "¡Se acabó!";
+                document.getElementById("numCarta").innerText = "Fin";
+                document.getElementById("btnSiguiente").disabled = true;
+                document.getElementById("btnPausa").disabled = true;
+                cantar("¡Se acabó la lotería!");
+            }
+        }
+
+        function iniciarAutomatico() {
+            if (intervalo) clearInterval(intervalo);
+            enPausa = false;
+            document.getElementById("btnPausa").innerText = "Pausar";
+            
+            let velocidadMs = parseInt(document.getElementById("velocidadSelect").value);
+            
+            intervalo = setInterval(() => {
+                siguienteCarta();
+            }, velocidadMs);
+        }
+
+        function pausarJuego() {
+            if (intervalo) {
+                clearInterval(intervalo);
+                intervalo = null;
+                enPausa = true;
+                document.getElementById("btnPausa").innerText = "Reanudar";
+            } else if (indiceActual < barajaActual.main?.length - 1 || indiceActual < barajaActual.length - 1) {
+                iniciarAutomatico();
+            }
+        }
+
+        function cambiarVelocidad() {
+            if (intervalo) {
+                iniciarAutomatico(); // Reinicia el intervalo con la nueva velocidad seleccionada
+            }
+        }
+    </script>
+</body>
+</html>
