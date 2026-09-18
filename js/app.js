@@ -2,19 +2,66 @@
 // 🎴 Lotería Mexicana - Aplicación Principal
 // ============================================
 
-const barajaOriginal = [
-    "El Gallo", "El Diablito", "La Dama", "El Catrín", "El Paraguas", 
-    "La Sirena", "La Escalera", "La Botella", "El Barril", "El Árbol", 
-    "El Melón", "El Valiente", "El Gorrito", "La Muerte", "La Pera", 
-    "La Bandera", "El Bandolón", "El Violoncello", "La Garza", "El Pájaro", 
-    "La Mano", "La Bota", "La Luna", "El Cotorro", "El Borracho", 
-    "El Negrito", "El Corazón", "La Sandía", "El Tambor", "El Camarón", 
-    "Las Jaras", "El Músico", "La Araña", "El Soldado", "La Estrella", 
-    "El Cazo", "El Mundo", "El Apache", "El Nopal", "El Alacrán", 
-    "La Rosa", "La Calavera", "La Campana", "El Cantarito", "El Venado", 
-    "El Sol", "La Corona", "La Chalupa", "El Pino", "El Pescado", 
-    "La Palma", "La Maceta", "El Arpa", "La Rana"
-];
+// Mapeo de cartas: nombre -> archivo de imagen
+const CARTAS = {
+    1: { nombre: "El Gallo", archivo: "1" },
+    2: { nombre: "El Diablito", archivo: "2" },
+    3: { nombre: "La Dama", archivo: "3" },
+    4: { nombre: "El Catrín", archivo: "4" },
+    5: { nombre: "El Paraguas", archivo: "5" },
+    6: { nombre: "La Sirena", archivo: "6" },
+    7: { nombre: "La Escalera", archivo: "7" },
+    8: { nombre: "La Botella", archivo: "8" },
+    9: { nombre: "El Barril", archivo: "9" },
+    10: { nombre: "El Árbol", archivo: "10" },
+    11: { nombre: "El Melón", archivo: "11" },
+    12: { nombre: "El Valiente", archivo: "12" },
+    13: { nombre: "El Gorrito", archivo: "13" },
+    14: { nombre: "La Muerte", archivo: "14" },
+    15: { nombre: "La Pera", archivo: "15" },
+    16: { nombre: "La Bandera", archivo: "16" },
+    17: { nombre: "El Bandolón", archivo: "17" },
+    18: { nombre: "El Violoncello", archivo: "18" },
+    19: { nombre: "La Garza", archivo: "19" },
+    20: { nombre: "El Pájaro", archivo: "20" },
+    21: { nombre: "La Mano", archivo: "21" },
+    22: { nombre: "La Bota", archivo: "22" },
+    23: { nombre: "La Luna", archivo: "23" },
+    24: { nombre: "El Cotorro", archivo: "24" },
+    25: { nombre: "El Borracho", archivo: "25" },
+    26: { nombre: "El Negrito", archivo: "26" },
+    27: { nombre: "El Corazón", archivo: "27" },
+    28: { nombre: "La Sandía", archivo: "28" },
+    29: { nombre: "El Tambor", archivo: "29" },
+    30: { nombre: "El Camarón", archivo: "30" },
+    31: { nombre: "Las Jaras", archivo: "31" },
+    32: { nombre: "El Músico", archivo: "32" },
+    33: { nombre: "La Araña", archivo: "33" },
+    34: { nombre: "El Soldado", archivo: "34" },
+    35: { nombre: "La Estrella", archivo: "35" },
+    36: { nombre: "El Cazo", archivo: "36" },
+    37: { nombre: "El Mundo", archivo: "37" },
+    38: { nombre: "El Apache", archivo: "38" },
+    39: { nombre: "El Nopal", archivo: "39" },
+    40: { nombre: "El Alacrán", archivo: "40" },
+    41: { nombre: "La Rosa", archivo: "41" },
+    42: { nombre: "La Calavera", archivo: "42" },
+    43: { nombre: "La Campana", archivo: "43" },
+    44: { nombre: "El Cantarito", archivo: "44" },
+    45: { nombre: "El Venado", archivo: "45" },
+    46: { nombre: "El Sol", archivo: "46" },
+    47: { nombre: "La Corona", archivo: "47" },
+    48: { nombre: "La Chalupa", archivo: "48" },
+    49: { nombre: "El Pino", archivo: "49" },
+    50: { nombre: "El Pescado", archivo: "50" },
+    51: { nombre: "La Palma", archivo: "51" },
+    52: { nombre: "La Maceta", archivo: "52" },
+    53: { nombre: "El Arpa", archivo: "53" },
+    54: { nombre: "La Rana", archivo: "54" }
+};
+
+// Array de números para la baraja
+const barajaOriginal = Object.keys(CARTAS).map(Number);
 
 let barajaActual = [];
 let indiceActual = -1;
@@ -63,6 +110,13 @@ function barajar(array) {
     return array;
 }
 
+function cargarCarta(numeroCarta) {
+    const carta = CARTAS[numeroCarta];
+    const img = document.getElementById("cartaImagen");
+    img.src = `assets/cards/${carta.archivo}.webp`;
+    img.alt = carta.nombre;
+}
+
 function iniciarJuego() {
     barajaActual = barajar([...barajaOriginal]);
     indiceActual = -1;
@@ -78,8 +132,8 @@ function iniciarJuego() {
 function siguienteCarta() {
     indiceActual++;
     if (indiceActual < barajaActual.length) {
-        let carta = barajaActual[indiceActual];
-        let numero = barajaOriginal.indexOf(carta) + 1;
+        let numeroCarta = barajaActual[indiceActual];
+        let carta = CARTAS[numeroCarta];
 
         // Animacion visual de la carta
         let cartaBox = document.getElementById("cartaBox");
@@ -87,10 +141,11 @@ function siguienteCarta() {
         void cartaBox.offsetWidth; 
         cartaBox.classList.add("animar");
 
-        // Actualizar textos
-        document.getElementById("numCarta").innerText = `# ${numero}`;
-        document.getElementById("nombreCarta").innerText = carta;
-        document.getElementById("contador").innerText = `Carta ${indiceActual + 1} de 54`;
+        // Cargar imagen de la carta
+        cargarCarta(numeroCarta);
+
+        // Actualizar contador
+        document.getElementById("contador").innerText = `Carta ${indiceActual + 1} de 54 - ${carta.nombre}`;
 
         // Actualizar historial con etiquetas
         let historialDiv = document.getElementById("historial");
@@ -98,15 +153,16 @@ function siguienteCarta() {
             historialDiv.innerHTML = "";
         } else {
             let cartasPasadas = barajaActual.slice(0, indiceActual);
-            historialDiv.innerHTML = cartasPasadas.map(c => `<span class="badge-carta">${c}</span>`).join("");
+            historialDiv.innerHTML = cartasPasadas.map(num => 
+                `<span class="badge-carta">${CARTAS[num].nombre}</span>`
+            ).join("");
             historialDiv.scrollTop = historialDiv.scrollHeight;
         }
 
-        cantar(carta);
+        cantar(carta.nombre);
     } else {
         pausarJuego();
-        document.getElementById("nombreCarta").innerText = "¡Se acabó!";
-        document.getElementById("numCarta").innerText = "Fin";
+        document.getElementById("contador").innerText = "¡Se acabó la lotería!";
         document.getElementById("btnSiguiente").disabled = true;
         document.getElementById("btnPausa").disabled = true;
         cantar("¡Se acabó la lotería!");
@@ -145,3 +201,12 @@ function cambiarVelocidad() {
         iniciarAutomatico();
     }
 }
+
+// ============================================
+// 🚀 Inicialización
+// ============================================
+
+// Cargar primera carta al inicio
+window.onload = function() {
+    cargarCarta(1);
+};
