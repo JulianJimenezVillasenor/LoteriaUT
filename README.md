@@ -1,4 +1,4 @@
-# 🎴 Lotería Mexicana
+# Lotería Mexicana
 
 Aplicación web para cantar la lotería tradicional mexicana. Baraja las 54 cartas, muestra cada una con animación y las "canta" usando Text-to-Speech en español mexicano.
 
@@ -11,12 +11,12 @@ Aplicación web para cantar la lotería tradicional mexicana. Baraja las 54 cart
 
 ## Funcionalidades
 
-- 🎤 Voz automática en español mexicano (Text-to-Speech)
-- 🃏 54 cartas de la lotería tradicional
-- ⏯️ Control de pausa y reanudación
-- 🚀 3 velocidades: lenta, normal y rápida
-- 📜 Historial de cartas pasadas
-- ✨ Animaciones suaves al cambiar de carta
+- Voz automática en español mexicano (Text-to-Speech)
+- 54 cartas de la lotería tradicional
+- Control de pausa y reanudación
+- 3 velocidades: lenta, normal y rápida
+- Historial de cartas pasadas
+- Animaciones suaves al cambiar de carta
 
 ## Estructura
 
