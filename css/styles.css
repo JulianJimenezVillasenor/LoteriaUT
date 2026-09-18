@@ -1,0 +1,226 @@
+:root {
+    --primary: #990000;
+    --primary-dark: #660000;
+    --accent: #FFC107;
+    --accent-hover: #ffb300;
+    --bg-gradient: radial-gradient(circle at center, #3a0303 0%, #1a0101 100%);
+    --card-bg: #fffdf9;
+    --text-main: #2b2b2b;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg-gradient);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    max-width: 600px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin: 0 0 5px 0;
+    color: var(--accent);
+    text-shadow: 2px 3px 6px rgba(0,0,0,0.6);
+    letter-spacing: 1px;
+}
+
+.contador {
+    font-size: 1.1rem;
+    color: #ffccd5;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    padding: 4px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor Principal de la Carta */
+.carta-wrapper {
+    perspective: 1000px;
+    margin: 15px 0;
+}
+
+.carta-container {
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    width: 260px;
+    height: 380px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 0 6px var(--accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.carta-container.animar {
+    animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.numero-carta {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: left;
+    background: #ffe6e6;
+    width: fit-content;
+    padding: 2px 10px;
+    border-radius: 8px;
+}
+
+.nombre-carta {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--primary-dark);
+    margin: auto 0;
+    line-height: 1.2;
+}
+
+.sub-carta {
+    font-size: 0.85rem;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+}
+
+/* Controles y Botones */
+.panel-control {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: var(--accent);
+    color: #2b2b2b;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    font-family: 'Outfit', sans-serif;
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.velocidad-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-top: 10px;
+}
+
+.velocidad-container select {
+    background: #222;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    outline: none;
+}
+
+/* Historial Estilizado */
+.historial-container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.historial-titulo {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.historial {
+    font-size: 0.85rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 70px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.badge-carta {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+/* Scrollbar personalizado para el historial */
+.historial::-webkit-scrollbar {
+    width: 6px;
+}
+.historial::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}

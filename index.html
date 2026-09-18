@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantar Loteria Mexicana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <h1> Loteria Mexicana </h1>
+        <div class="contador" id="contador">Carta 0 de 54</div>
+    </header>
+
+    <!-- Carta actual en pantalla -->
+    <div class="carta-wrapper">
+        <div class="carta-container" id="cartaBox">
+            <div class="numero-carta" id="numCarta"># --</div>
+            <div class="nombre-carta" id="nombreCarta">¡Listos!</div>
+            <div class="sub-carta">Loteria Tradicional</div>
+        </div>
+    </div>
+
+    <!-- Controles y Panel -->
+    <div class="panel-control">
+        <div class="controls">
+            <button id="btnIniciar" onclick="iniciarJuego()">Barajar y Jugar</button>
+            <button id="btnSiguiente" onclick="siguienteCarta()" disabled>Siguiente</button>
+            <button id="btnPausa" onclick="pausarJuego()" disabled>Pausar</button>
+        </div>
+        
+        <div class="velocidad-container">
+            <label for="velocidadSelect">Velocidad:</label>
+            <select id="velocidadSelect" onchange="cambiarVelocidad()">
+                <option value="5500">Lenta (5.5s)</option>
+                <option value="4000" selected>Normal (4s)</option>
+                <option value="2500">Rapida (2.5s)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="historial-container">
+        <div class="historial-titulo">Cartas anteriores:</div>
+        <div class="historial" id="historial">
+            <span style="color: #aaa; font-style: italic;">Ninguna carta pasada</span>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
